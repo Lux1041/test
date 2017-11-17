@@ -21,14 +21,45 @@ import butterknife.BindView;
  * Created by Tianyi on 2017/11/13.
  */
 
-public class DownLoadFragment extends BaseFragment<DownLoadPresenter> implements DownLoadContact.View {
+public class DownLoadFragment extends ProgressFragment<DownLoadPresenter> implements DownLoadContact.View {
     @BindView(R.id.fragment_download_recyclerview)
     RecyclerView recyclerView;
 
-   /* @Inject
-    ProgressDialog mProgressDialog;*/
+    @Override
+    public void showData(List<AppInfo> data) {
+        DownAppInfoAdapter adapter = new DownAppInfoAdapter(data, getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
+    public void showNoData() {
+        Toast.makeText(getActivity(), "暂时没有数据", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public int setRealContent() {
+        return R.layout.fragment_download;
+    }
+
+    @Override
+    public void setupAppComponent(AppComponent appComponent) {
+        DaggerDownLoadComponent.builder()
+                .downLoadModule(new DownLoadModule(this))
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public void initData() {
+        mPresenter.getAppInfos();
+    }
+
+
+  /*  @Override
     public int setContentView() {
         return R.layout.fragment_download;
     }
@@ -68,5 +99,5 @@ public class DownLoadFragment extends BaseFragment<DownLoadPresenter> implements
     @Override
     public void showNoData() {
         Toast.makeText(getActivity(), "没有数据", Toast.LENGTH_LONG).show();
-    }
+    }*/
 }

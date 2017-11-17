@@ -2,6 +2,7 @@ package com.example.tianyi.iphoneassist.http;
 
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.BaseBean;
+import com.example.tianyi.iphoneassist.bean.IndexBean;
 import com.example.tianyi.iphoneassist.bean.PageBean;
 
 import retrofit2.http.GET;
@@ -25,4 +26,7 @@ public interface ApiServer {
 
     @GET("featured2")
     public Observable<BaseBean<PageBean<AppInfo>>> getDownLoadAppInfo2(@Query("p")String jsonParams);
+
+    @GET("index")
+    public Observable<BaseBean<IndexBean>> index();
 }

@@ -1,5 +1,6 @@
 package com.example.tianyi.iphoneassist.presenter;
 
+import android.Manifest;
 import android.util.Log;
 
 import com.example.tianyi.iphoneassist.bean.AppInfo;
@@ -9,8 +10,13 @@ import com.example.tianyi.iphoneassist.common.rx.RxHttpResponseCompose;
 import com.example.tianyi.iphoneassist.common.rx.subscriber.ProgressSubscriber;
 import com.example.tianyi.iphoneassist.data.DownLoadModule;
 import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
+import com.example.tianyi.iphoneassist.ui.fragment.DownLoadFragment;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import javax.inject.Inject;
+
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by Tianyi on 2017/11/13.
@@ -30,7 +36,38 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
 
     public void getAppInfos(){
 
-        moudle.getApps()
+        RxPermissions rxPermissions = new RxPermissions(((DownLoadFragment)mView).getActivity());
+
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).flatMap(new Func1<Boolean, Observable<PageBean<AppInfo>>>() {
+            @Override
+            public Observable<PageBean<AppInfo>> call(Boolean aBoolean) {
+                if (aBoolean) {
+                    return moudle.getApps().compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult());
+                }else{
+//                    mView.requestPermissionFailed();
+                    return Observable.error(null);
+                }
+            }
+        }).subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
+            @Override
+            public void onNext(PageBean<AppInfo> response) {
+                if (response != null){
+                    if (response.getStatus() == 1){
+                        if (response.getDatas() == null || response.getDatas().size() == 0){
+                            mView.showNoData();
+                        }else{
+                            mView.showData(response.getDatas());
+                        }
+                    }else{
+                        mView.showNoData();
+                    }
+                }else{
+                    mView.showNoData();
+                }
+            }
+        });
+
+       /* moudle.getApps()
                 .compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
                 .subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
                     @Override
@@ -49,7 +86,7 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
                             mView.showNoData();
                         }
                     }
-                });
+                });*/
 
        /* mView.loading();
         moudle.getApps(new Callback<PageBean<AppInfo>>() {

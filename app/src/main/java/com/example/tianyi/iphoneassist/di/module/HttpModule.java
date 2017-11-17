@@ -1,8 +1,10 @@
 package com.example.tianyi.iphoneassist.di.module;
 
 import com.example.tianyi.iphoneassist.AppAplication;
+import com.example.tianyi.iphoneassist.common.http.CommonParamsInterceptor;
 import com.example.tianyi.iphoneassist.common.rx.RxErrorHandler;
 import com.example.tianyi.iphoneassist.http.ApiServer;
+import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,11 +27,12 @@ public class HttpModule {
 
     @Singleton
     @Provides
-    public OkHttpClient provideOkHttpClient(){
+    public OkHttpClient provideOkHttpClient(AppAplication context, Gson mGson){
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addInterceptor(logging)
+                .addInterceptor(new CommonParamsInterceptor(context, mGson))
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS);
         return builder.build();
