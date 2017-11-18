@@ -8,26 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-   <!-- <style name="Theme.Toolbar" parent="AppTheme">
-        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowStyle</item>
-        <item name="android:windowActionBarOverlay">@style/ActionBarButton.OverFlow</item>
-        <item name="actionOverflowButtonStyle">@style/ActionBarButton.OverFlow</item>
-        <item name="titleTextColor">@color/white</item>
-
-    </style>
-
-
-    &lt;!&ndash;箭头&ndash;&gt;
-    <style name="AppTheme.DrawerArrowStyle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@android:color/white</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
-
-    <style name="ActionBarButton.OverFlow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@mipmap/ic_launcher</item>
-    </style>-->
-
     <style name="Theme.Toolbar" parent="AppTheme">
 
         <!-- 箭头 -->
@@ -46,6 +26,21 @@
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
+    </style>
+
+
+    <style name="Text_Title">
+
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+
+    </style>
+
+    <style name="Text_Content">
+
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/md_grey_400</item>
     </style>
 
 </resources>

@@ -1,9 +1,9 @@
 package com.example.tianyi.iphoneassist.presenter;
 
 import android.Manifest;
-import android.util.Log;
 
 import com.example.tianyi.iphoneassist.bean.AppInfo;
+import com.example.tianyi.iphoneassist.bean.IndexBean;
 import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.common.rx.RxErrorHandler;
 import com.example.tianyi.iphoneassist.common.rx.RxHttpResponseCompose;
@@ -29,7 +29,6 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
     @Inject
     public DownLoadPresenter(DownLoadModule downLoadModule, DownLoadContact.View mView, RxErrorHandler rxErrorHandler) {//必须和提供出来的类一样，不能是其子类或实现
         super(downLoadModule, mView);
-        Log.e("TAGGG", rxErrorHandler + "");
         this.rxErrorHandler = rxErrorHandler;
 
     }
@@ -149,5 +148,16 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
                 mView.showError(t.toString());
             }
         });*/
+    }
+
+    public void getIndexAppInfos(){
+        moudle.getIndexAppInfos()
+                .compose(RxHttpResponseCompose.<IndexBean>compatResult())
+                .subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+                    @Override
+                    public void onNext(IndexBean indexBean) {
+                        mView.showIndexData(indexBean);
+                    }
+                });
     }
 }

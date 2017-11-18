@@ -23,6 +23,10 @@
     <string name="error_socket_unreachable">网络不可用</string>
     <string name="error_token">登录失效，请重新登录</string>
 
+    <string name="hot_game">热门游戏</string>
+    <string name="hot_top">热门主题</string>
+    <string name="hot_app">热门应用</string>
+
     <!--icon font-->
     <string name="icon_fenxiang">&#xe624;</string>
     <string name="icon_fanhui">&#xe625;</string>

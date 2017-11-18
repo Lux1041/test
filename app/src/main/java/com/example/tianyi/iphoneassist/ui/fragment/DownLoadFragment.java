@@ -6,12 +6,14 @@ import android.widget.Toast;
 
 import com.example.tianyi.iphoneassist.R;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
+import com.example.tianyi.iphoneassist.bean.IndexBean;
 import com.example.tianyi.iphoneassist.di.component.AppComponent;
 import com.example.tianyi.iphoneassist.di.component.DaggerDownLoadComponent;
 import com.example.tianyi.iphoneassist.di.module.DownLoadModule;
 import com.example.tianyi.iphoneassist.presenter.DownLoadPresenter;
 import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
 import com.example.tianyi.iphoneassist.ui.adapter.DownAppInfoAdapter;
+import com.example.tianyi.iphoneassist.ui.adapter.IndexMultiAdapter;
 
 import java.util.List;
 
@@ -40,6 +42,16 @@ public class DownLoadFragment extends ProgressFragment<DownLoadPresenter> implem
     }
 
     @Override
+    public void showIndexData(IndexBean indexBean) {
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+        IndexMultiAdapter adapter = new IndexMultiAdapter(getActivity());
+        adapter.setData(indexBean);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
     public int setRealContent() {
         return R.layout.fragment_download;
     }
@@ -55,7 +67,8 @@ public class DownLoadFragment extends ProgressFragment<DownLoadPresenter> implem
 
     @Override
     public void initData() {
-        mPresenter.getAppInfos();
+//        mPresenter.getAppInfos();
+        mPresenter.getIndexAppInfos();
     }
 
 

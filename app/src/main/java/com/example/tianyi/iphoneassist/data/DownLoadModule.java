@@ -2,6 +2,7 @@ package com.example.tianyi.iphoneassist.data;
 
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.BaseBean;
+import com.example.tianyi.iphoneassist.bean.IndexBean;
 import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.http.ApiServer;
 
@@ -22,5 +23,9 @@ public class DownLoadModule {
 
         String jsonParams = "{'page':0}";
         return mApiServer.getDownLoadAppInfo2(jsonParams);
+    }
+
+    public Observable<BaseBean<IndexBean>> getIndexAppInfos(){
+        return mApiServer.index();
     }
 }

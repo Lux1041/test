@@ -16,6 +16,9 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+
+        //recycererview adapter
+        maven { url "https://jitpack.io" }
     }
 }
 
