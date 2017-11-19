@@ -28,4 +28,13 @@ public class DownLoadModule {
     public Observable<BaseBean<IndexBean>> getIndexAppInfos(){
         return mApiServer.index();
     }
+
+
+    public Observable<BaseBean<PageBean<AppInfo>>> getAppInfos(int page){
+        return mApiServer.topList(page);
+    }
+
+    public Observable<BaseBean<PageBean<AppInfo>>> getGameAppInfos(int page){
+        return mApiServer.games(page);
+    }
 }

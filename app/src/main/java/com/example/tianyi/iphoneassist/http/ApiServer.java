@@ -29,4 +29,14 @@ public interface ApiServer {
 
     @GET("index")
     public Observable<BaseBean<IndexBean>> index();
+
+    @GET("toplist")
+    public  Observable<BaseBean<PageBean<AppInfo>>> topList(@Query("page") int page);
+
+    @GET("game")
+    public  Observable<BaseBean<PageBean<AppInfo>>> games(@Query("page") int page);
+
+
+//    @POST("login")
+//    Observable<BaseBean<LoginBean>> login(@Body LoginRequestBean param);
 }

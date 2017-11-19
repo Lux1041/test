@@ -2,6 +2,7 @@ package com.example.tianyi.iphoneassist.presenter.contact;
 
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.IndexBean;
+import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.ui.BaseView;
 
 import java.util.List;
@@ -15,5 +16,9 @@ public interface DownLoadContact {
         void showData(List<AppInfo> data);
         void showNoData();
         void showIndexData(IndexBean indexBean);
+    }
+
+    interface AppInfoView extends BaseView{
+        void showData(PageBean<AppInfo> data);
     }
 }
