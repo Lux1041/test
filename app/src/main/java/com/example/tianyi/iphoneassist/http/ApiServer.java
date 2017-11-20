@@ -3,9 +3,13 @@ package com.example.tianyi.iphoneassist.http;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.BaseBean;
 import com.example.tianyi.iphoneassist.bean.IndexBean;
+import com.example.tianyi.iphoneassist.bean.LoginBean;
 import com.example.tianyi.iphoneassist.bean.PageBean;
+import com.example.tianyi.iphoneassist.bean.requestbean.LoginRequestBean;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -37,6 +41,6 @@ public interface ApiServer {
     public  Observable<BaseBean<PageBean<AppInfo>>> games(@Query("page") int page);
 
 
-//    @POST("login")
-//    Observable<BaseBean<LoginBean>> login(@Body LoginRequestBean param);
+    @POST("login")
+    Observable<BaseBean<LoginBean>> login(@Body LoginRequestBean param);
 }

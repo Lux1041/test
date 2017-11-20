@@ -4,6 +4,7 @@ import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.common.rx.RxErrorHandler;
 import com.example.tianyi.iphoneassist.common.rx.RxHttpResponseCompose;
+import com.example.tianyi.iphoneassist.common.rx.subscriber.ErrorSubscriber;
 import com.example.tianyi.iphoneassist.common.rx.subscriber.ProgressSubscriber;
 import com.example.tianyi.iphoneassist.data.DownLoadModule;
 import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
@@ -26,18 +27,35 @@ public class AppinfoPresenter extends BasePresenter<DownLoadModule, DownLoadCont
 
 
     public void requestData(int page){
-        moudle.getAppInfos(page).compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
-                .subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
-                    @Override
-                    public void onNext(PageBean<AppInfo> appInfoPageBean) {
-                        mView.showData(appInfoPageBean);
-                    }
 
-                    @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        ((HistoryFragment)mView).onLoadComplete();
-                    }
-                });
+        if (page == 0){
+            moudle.getAppInfos(page).compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
+                    .subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
+                        @Override
+                        public void onNext(PageBean<AppInfo> appInfoPageBean) {
+                            mView.showData(appInfoPageBean);
+                        }
+
+                       /* @Override
+                        public void onCompleted() {
+                            super.onCompleted();
+                            ((HistoryFragment)mView).onLoadComplete();//这行代码必须要的，不然没有加载更多的功能
+                        }*/
+                    });
+        }else{
+            moudle.getAppInfos(page)
+                    .compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
+                    .subscribe(new ErrorSubscriber<PageBean<AppInfo>>(rxErrorHandler) {
+                        @Override
+                        public void onCompleted() {
+                            ((HistoryFragment)mView).onLoadComplete();
+                        }
+
+                        @Override
+                        public void onNext(PageBean<AppInfo> appInfoPageBean) {
+                            mView.showData(appInfoPageBean);
+                        }
+                    });
+        }
     }
 }

@@ -151,13 +151,32 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
     }
 
     public void getIndexAppInfos(){
-        moudle.getIndexAppInfos()
+
+        RxPermissions rxPermissions = new RxPermissions(((DownLoadFragment)mView).getActivity());
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).flatMap(new Func1<Boolean, Observable<IndexBean>>() {
+            @Override
+            public Observable<IndexBean> call(Boolean aBoolean) {
+
+                if (aBoolean){
+                    return moudle.getIndexAppInfos().compose(RxHttpResponseCompose.<IndexBean>compatResult());
+                }else{
+                    return Observable.error(null);
+                }
+            }
+        }).subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+            @Override
+            public void onNext(IndexBean indexBean) {
+                mView.showIndexData(indexBean);
+            }
+        });
+
+      /*  moudle.getIndexAppInfos()
                 .compose(RxHttpResponseCompose.<IndexBean>compatResult())
                 .subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
                     @Override
                     public void onNext(IndexBean indexBean) {
                         mView.showIndexData(indexBean);
                     }
-                });
+                });*/
     }
 }

@@ -52,6 +52,7 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
         mRecyclerView.addItemDecoration(itemDecoration);
         mPresenter.requestData(page);
         mAdapter = new AppInfoAdapter(new ArrayList<AppInfo>());
+        mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -60,10 +61,8 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
         mAdapter.addData(data.getDatas());
         if (data.isHasMore()) {
             page ++;
-            mAdapter.setEnableLoadMore(true);
-        }else{
-            mAdapter.setEnableLoadMore(false);
         }
+        mAdapter.setEnableLoadMore(data.isHasMore());
     }
 
     public void onLoadComplete(){

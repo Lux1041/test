@@ -75,5 +75,10 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
 
+    //rxbinding
+    compile 'com.jakewharton.rxbinding:rxbinding:1.0.1'
+
+    //rxBus类似与eventbus
+    compile 'com.hwangjr.rxbus:rxbus:1.0.5'
 
 }
