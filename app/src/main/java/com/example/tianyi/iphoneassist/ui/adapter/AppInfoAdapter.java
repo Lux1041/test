@@ -32,7 +32,4 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfo, BaseViewHolder> {
                 .setText(R.id.txt_brief, item.getBriefShow());
 
     }
-
-
-
 }
