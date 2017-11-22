@@ -86,5 +86,6 @@
     <string name="icon_faxianjihuo">&#xe65b;</string>
     <string name="icon_wodedamaijihuo">&#xe65c;</string>
     <string name="empty_view">暂时没有数据</string>
+    <string name="download">下载</string>
 
 </resources>

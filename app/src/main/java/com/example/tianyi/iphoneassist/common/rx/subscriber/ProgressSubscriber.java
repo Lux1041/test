@@ -27,9 +27,12 @@ public abstract class ProgressSubscriber<T> extends ErrorSubscriber<T> {
     public void onError(Throwable e) {
 //        super.onError(e);
         BaseException exception = rxErrorHandler.handlerError(e);
+//        rxErrorHandler.showError(exception);
         mView.dimissLoading();
         if (mView instanceof DownLoadFragment) {
             ((DownLoadFragment) mView).showError(exception.getDisplayMessage());
+        } else {
+            mView.showError(exception.getDisplayMessage());
         }
     }
 

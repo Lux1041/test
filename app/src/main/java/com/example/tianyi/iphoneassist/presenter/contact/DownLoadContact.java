@@ -21,4 +21,8 @@ public interface DownLoadContact {
     interface AppInfoView extends BaseView{
         void showData(PageBean<AppInfo> data);
     }
+
+    interface AppInfoDetailView extends BaseView{
+        void showAppInfoDetail(AppInfo appInfo);
+    }
 }

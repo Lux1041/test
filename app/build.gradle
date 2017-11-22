@@ -20,6 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    /*sourceSets{
+        res.srcDirs = [
+                'res',
+                'res.layout.activity',
+                'res.layout.fragment'
+        ]
+    }*/
 }
 
 dependencies {
@@ -80,5 +88,8 @@ dependencies {
 
     //rxBus类似与eventbus
     compile 'com.hwangjr.rxbus:rxbus:1.0.5'
+
+    //expandTextView
+    compile 'com.ms-square:expandableTextView:0.1.4'
 
 }

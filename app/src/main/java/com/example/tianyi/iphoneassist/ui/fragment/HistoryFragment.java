@@ -66,12 +66,13 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                jumpActivity(view);
+                AppInfo appinfo = (AppInfo) adapter.getData().get(position);
+                jumpActivity(view, appinfo);
             }
         });
     }
 
-    private void jumpActivity(final View view) {
+    private void jumpActivity(final View view, AppInfo appInfo) {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -79,6 +80,7 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
             }
         }, 100);
         Intent intent = new Intent(getActivity(), AppDetailActivity.class);
+        intent.putExtra("appInfo", appInfo);
         startActivity(intent);
     }
 

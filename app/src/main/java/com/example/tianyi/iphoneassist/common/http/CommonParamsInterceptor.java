@@ -3,6 +3,7 @@ package com.example.tianyi.iphoneassist.common.http;
 import android.content.Context;
 
 import com.example.tianyi.iphoneassist.common.Constant;
+import com.example.tianyi.iphoneassist.common.util.ACache;
 import com.example.tianyi.iphoneassist.common.util.DensityUtil;
 import com.example.tianyi.iphoneassist.common.util.DeviceUtils;
 import com.google.gson.Gson;
@@ -48,6 +49,8 @@ public class CommonParamsInterceptor implements Interceptor {
         commomParamsMap.put(Constant.RESOLUTION, DensityUtil.getScreenW(mContext)+"*" + DensityUtil.getScreenH(mContext));
         commomParamsMap.put(Constant.SDK,DeviceUtils.getBuildVersionSDK()+"");
         commomParamsMap.put(Constant.DENSITY_SCALE_FACTOR,mContext.getResources().getDisplayMetrics().density+"");
+
+        commomParamsMap.put(Constant.TOKEN, ACache.get(mContext).getAsString(Constant.TOKEN));
 
 
         Request request = chain.request();

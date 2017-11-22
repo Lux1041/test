@@ -36,11 +36,6 @@ public class AppinfoPresenter extends BasePresenter<DownLoadModule, DownLoadCont
                             mView.showData(appInfoPageBean);
                         }
 
-                       /* @Override
-                        public void onCompleted() {
-                            super.onCompleted();
-                            ((HistoryFragment)mView).onLoadComplete();//这行代码必须要的，不然没有加载更多的功能
-                        }*/
                     });
         }else{
             moudle.getAppInfos(page)
