@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.tianyi.iphoneassist.AppAplication;
 import com.example.tianyi.iphoneassist.R;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.common.imageloader.ImageLoader;
@@ -24,6 +26,8 @@ import com.example.tianyi.iphoneassist.http.ApiServer;
 import com.example.tianyi.iphoneassist.ui.fragment.AppInfoFragment;
 import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 
 import butterknife.BindView;
 
@@ -41,18 +45,66 @@ public class AppDetailActivity extends BaseActivity {
     @BindView(R.id.activity_app_detail_name)
     TextView mAppName;
     @BindView(R.id.activity_app_detail_content)
-    LinearLayout mContentViewLayout;
+    CoordinatorLayout mContentViewLayout;
+
+    @BindView(R.id.toolbar)
+    android.support.v7.widget.Toolbar mToolBar;
 
     private AppInfo appinfo;
 
     @Override
     public int setLayout() {
+        RxBus.get().register(this);
         return R.layout.activity_app_detail;
     }
 
     @Override
     public void init() {
-        RxBus.get().register(this);
+        mToolBar.setNavigationIcon(
+                new IconicsDrawable(this)
+                        .icon(Ionicons.Icon.ion_android_arrow_back)
+                        .sizeDp(16)
+                        .color(getResources().getColor(R.color.md_white_1000))
+        );
+        mToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        View view = ((AppAplication)getApplication()).getItemView();
+        if (view != null){
+            int[] locations = new int[2];
+            view.getLocationOnScreen(locations);
+
+            view.setDrawingCacheEnabled(true);
+            view.buildDrawingCache();
+            Bitmap bitmap = view.getDrawingCache();
+
+            if (bitmap != null) {
+                bitmap = Bitmap.createBitmap(bitmap);
+                mBackgroundView.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                view.destroyDrawingCache();
+
+                int statusBarHeight = DensityUtil.getStatusBarH(this);
+
+                LinearLayout.MarginLayoutParams marginLayoutParams = new LinearLayout.MarginLayoutParams(mBackgroundView.getLayoutParams());
+                marginLayoutParams.topMargin = locations[1] - statusBarHeight;
+                marginLayoutParams.leftMargin = locations[0];
+                marginLayoutParams.width = view.getWidth();
+                marginLayoutParams.height = view.getHeight();
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(marginLayoutParams);
+                mBackgroundView.setLayoutParams(lp);
+
+                expandFramelayout();
+//            initAppInfo();
+            }else{
+                finish();
+            }
+        }else{
+            finish();
+        }
     }
 
     //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -72,15 +124,18 @@ public class AppDetailActivity extends BaseActivity {
 
             int statusBarHeight = DensityUtil.getStatusBarH(this);
 
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBackgroundView.getLayoutParams();
-            params.topMargin = locations[1] - statusBarHeight;
-            params.leftMargin = locations[0];
-            params.width = view.getWidth();
-            params.height = view.getHeight();
-            mBackgroundView.setLayoutParams(params);
+            LinearLayout.MarginLayoutParams marginLayoutParams = new LinearLayout.MarginLayoutParams(mBackgroundView.getLayoutParams());
+            marginLayoutParams.topMargin = locations[1] - statusBarHeight;
+            marginLayoutParams.leftMargin = locations[0];
+            marginLayoutParams.width = view.getWidth();
+            marginLayoutParams.height = view.getHeight();
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(marginLayoutParams);
+            mBackgroundView.setLayoutParams(lp);
 
             expandFramelayout();
 //            initAppInfo();
+        }else{
+            finish();
         }
     }
 

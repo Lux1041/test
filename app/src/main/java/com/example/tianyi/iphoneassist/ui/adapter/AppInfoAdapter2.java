@@ -1,9 +1,12 @@
 package com.example.tianyi.iphoneassist.ui.adapter;
 
+import android.widget.ImageView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.tianyi.iphoneassist.R;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
+import com.example.tianyi.iphoneassist.common.imageloader.ImageLoader;
 
 import java.util.List;
 
@@ -27,6 +30,10 @@ public class AppInfoAdapter2 extends BaseQuickAdapter<AppInfo, BaseViewHolder> {
                 .setText(R.id.txt_position, String.valueOf(item.getPosition() + 1))
                 .setText(R.id.txt_category, item.getLevel1CategoryName())
                 .setText(R.id.txt_brief, item.getBriefShow());*/
+        helper.setText(R.id.txt_app_name, item.getDisplayName());
+        helper.setText(R.id.txt_apk_size, (item.getApkSize() / 1024 / 1024) + "Mb");
+        ImageLoader.load(baseImgUrl + item.getIcon(), (ImageView) helper.getView(R.id.img_app_icon));
+
 
     }
 }

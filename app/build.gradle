@@ -21,13 +21,15 @@ android {
         }
     }
 
-    /*sourceSets{
-        res.srcDirs = [
-                'res',
-                'res.layout.activity',
-                'res.layout.fragment'
-        ]
-    }*/
+    sourceSets{
+        main{
+            res.srcDirs = [
+                    "src/main/res",
+                    "src/main/res/layout/activity",
+                    "src/main/res/layout/fragment"
+            ]
+        }
+    }
 }
 
 dependencies {
@@ -91,5 +93,8 @@ dependencies {
 
     //expandTextView
     compile 'com.ms-square:expandableTextView:0.1.4'
+
+    //CoordinatorLayout中通用的behavior
+    compile 'com.zoonref:simple-view-behavior:1.0'
 
 }

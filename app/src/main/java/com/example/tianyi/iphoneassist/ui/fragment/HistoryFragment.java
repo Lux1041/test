@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.example.tianyi.iphoneassist.AppAplication;
 import com.example.tianyi.iphoneassist.R;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.PageBean;
@@ -19,7 +20,6 @@ import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
 import com.example.tianyi.iphoneassist.ui.activity.AppDetailActivity;
 import com.example.tianyi.iphoneassist.ui.adapter.AppInfoAdapter;
 import com.example.tianyi.iphoneassist.ui.widget.DividerItemDecoration;
-import com.hwangjr.rxbus.RxBus;
 
 import java.util.ArrayList;
 
@@ -73,12 +73,13 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
     }
 
     private void jumpActivity(final View view, AppInfo appInfo) {
-        handler.postDelayed(new Runnable() {
+       /* handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 RxBus.get().post(view);
             }
-        }, 100);
+        }, 100);*/
+        ((AppAplication)getActivity().getApplication()).setItemView(view);
         Intent intent = new Intent(getActivity(), AppDetailActivity.class);
         intent.putExtra("appInfo", appInfo);
         startActivity(intent);

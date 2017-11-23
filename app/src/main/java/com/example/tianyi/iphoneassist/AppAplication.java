@@ -2,6 +2,7 @@ package com.example.tianyi.iphoneassist;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.View;
 
 import com.example.tianyi.iphoneassist.di.component.AppComponent;
 import com.example.tianyi.iphoneassist.di.component.DaggerAppComponent;
@@ -17,6 +18,15 @@ public class AppAplication extends Application {
     private AppComponent appComponent;
     public AppComponent getAppComponent(){
         return appComponent;
+    }
+
+    private View itemView;
+    public void setItemView(View view){
+        this.itemView = view;
+    }
+
+    public View getItemView(){
+        return itemView;
     }
 
     public static AppAplication getAppAplication(Context context){
