@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tianyi.iphoneassist.R;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.http.ApiServer;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class DownAppInfoAdapter extends RecyclerView.Adapter<DownAppInfoAdapter.
         holder.itemDownLoadName.setText(appInfo.getDisplayName());
         holder.itemDownLoadDesc.setText(appInfo.getBriefShow());
         String icon = ApiServer.BASE_IMAGE_URL + appInfo.getIcon();
-        Picasso.with(mContext).load(icon).into(holder.itemDownLoadIcon);
+        Glide.with(mContext).load(icon).into(holder.itemDownLoadIcon);
     }
 
     @Override

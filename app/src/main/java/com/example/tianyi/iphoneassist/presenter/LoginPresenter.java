@@ -3,6 +3,7 @@ package com.example.tianyi.iphoneassist.presenter;
 import com.example.tianyi.iphoneassist.bean.LoginBean;
 import com.example.tianyi.iphoneassist.bean.requestbean.LoginRequestBean;
 import com.example.tianyi.iphoneassist.common.Constant;
+import com.example.tianyi.iphoneassist.common.rx.RxBus;
 import com.example.tianyi.iphoneassist.common.rx.RxErrorHandler;
 import com.example.tianyi.iphoneassist.common.rx.RxHttpResponseCompose;
 import com.example.tianyi.iphoneassist.common.rx.subscriber.ErrorSubscriber;
@@ -11,7 +12,8 @@ import com.example.tianyi.iphoneassist.common.util.VerificationUtils;
 import com.example.tianyi.iphoneassist.data.LoginModule;
 import com.example.tianyi.iphoneassist.presenter.contact.LoginContact;
 import com.example.tianyi.iphoneassist.ui.activity.LoginActivity;
-import com.hwangjr.rxbus.RxBus;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Tianyi on 2017/11/20.
@@ -41,7 +43,12 @@ public class LoginPresenter extends BasePresenter<LoginModule, LoginContact.View
                 .compose(RxHttpResponseCompose.<LoginBean>compatResult())
                 .subscribe(new ErrorSubscriber<LoginBean>(rxErrorHandler) {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
                     }
 
                     @Override
@@ -51,7 +58,8 @@ public class LoginPresenter extends BasePresenter<LoginModule, LoginContact.View
                         aCache.put(Constant.TOKEN, loginBean.getToken());
                         aCache.put(Constant.USER, loginBean.getUser());
 
-                        RxBus.get().post(loginBean);
+//                        RxBus.get().post(loginBean);
+                        RxBus.getDefault().post(loginBean);
                     }
                 });
     }

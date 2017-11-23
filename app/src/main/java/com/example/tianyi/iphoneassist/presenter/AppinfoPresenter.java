@@ -12,6 +12,8 @@ import com.example.tianyi.iphoneassist.ui.fragment.HistoryFragment;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by Tianyi on 2017/11/19.
  */
@@ -42,8 +44,13 @@ public class AppinfoPresenter extends BasePresenter<DownLoadModule, DownLoadCont
                     .compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
                     .subscribe(new ErrorSubscriber<PageBean<AppInfo>>(rxErrorHandler) {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                             ((HistoryFragment)mView).onLoadComplete();
+                        }
+
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
                         }
 
                         @Override

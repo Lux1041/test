@@ -3,11 +3,16 @@ package com.example.tianyi.iphoneassist.common.rx;
 import com.example.tianyi.iphoneassist.bean.BaseBean;
 import com.example.tianyi.iphoneassist.common.exception.ApiException;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Tianyi on 2017/11/16.
@@ -15,7 +20,32 @@ import rx.schedulers.Schedulers;
 
 public class RxHttpResponseCompose {
 
-    public static <T> Observable.Transformer<BaseBean<T>, T> compatResult(){
+    public static <T> ObservableTransformer<BaseBean<T>, T> compatResult(){
+        return new ObservableTransformer<BaseBean<T>, T>() {
+            @Override
+            public ObservableSource<T> apply(io.reactivex.Observable<BaseBean<T>> baseBeanObservable) {
+                return baseBeanObservable.flatMap(new Function<BaseBean<T>, ObservableSource<T>>() {
+                    @Override
+                    public ObservableSource<T> apply(@NonNull final BaseBean<T> tBaseBean) throws Exception {
+                        if (tBaseBean.success()){
+                            return Observable.create(new ObservableOnSubscribe<T>() {
+                                @Override
+                                public void subscribe(ObservableEmitter<T> e) throws Exception {
+                                    e.onNext(tBaseBean.getData());
+                                    e.onComplete();
+                                }
+                            });
+                        }else{
+                            return Observable.error(new ApiException(tBaseBean.getStatus(), tBaseBean.getMessage()));
+                        }
+                    }
+                }).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+   /* public static <T> Observable.Transformer<BaseBean<T>, T> compatResult(){
         return new Observable.Transformer<BaseBean<T>, T>() {
             @Override
             public Observable<T> call(Observable<BaseBean<T>> baseBeanObservable) {
@@ -44,5 +74,5 @@ public class RxHttpResponseCompose {
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
         };
-    }
+    }*/
 }

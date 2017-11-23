@@ -11,12 +11,12 @@ import com.example.tianyi.iphoneassist.common.rx.subscriber.ProgressSubscriber;
 import com.example.tianyi.iphoneassist.data.DownLoadModule;
 import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
 import com.example.tianyi.iphoneassist.ui.fragment.DownLoadFragment;
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by Tianyi on 2017/11/13.
@@ -35,19 +35,37 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
 
     public void getAppInfos(){
 
-        RxPermissions rxPermissions = new RxPermissions(((DownLoadFragment)mView).getActivity());
+        RxPermissions rxPermissions = RxPermissions.getInstance(((DownLoadFragment)mView).getActivity());
 
-        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).flatMap(new Func1<Boolean, Observable<PageBean<AppInfo>>>() {
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).doOnNext(new Consumer<Boolean>() {
             @Override
-            public Observable<PageBean<AppInfo>> call(Boolean aBoolean) {
+            public void accept(Boolean aBoolean) {
                 if (aBoolean) {
-                    return moudle.getApps().compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult());
+                    moudle.getApps().compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
+                    .subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
+                        @Override
+                        public void onNext(PageBean<AppInfo> response) {
+                            if (response != null){
+                                if (response.getStatus() == 1){
+                                    if (response.getDatas() == null || response.getDatas().size() == 0){
+                                        mView.showNoData();
+                                    }else{
+                                        mView.showData(response.getDatas());
+                                    }
+                                }else{
+                                    mView.showNoData();
+                                }
+                            }else{
+                                mView.showNoData();
+                            }
+                        }
+                    });
                 }else{
 //                    mView.requestPermissionFailed();
-                    return Observable.error(null);
+//                    Observable.error(new ApiException(BaseException.UNKNOWN_ERROR, "没有该权限"));
                 }
             }
-        }).subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
+        })/*.subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
             @Override
             public void onNext(PageBean<AppInfo> response) {
                 if (response != null){
@@ -64,7 +82,27 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
                     mView.showNoData();
                 }
             }
-        });
+        })*/;
+
+       /* moudle.getApps().compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
+                .subscribe(new ProgressSubscriber<PageBean<AppInfo>>(mView, rxErrorHandler) {
+                    @Override
+                    public void onNext(PageBean<AppInfo> response) {
+                        if (response != null){
+                            if (response.getStatus() == 1){
+                                if (response.getDatas() == null || response.getDatas().size() == 0){
+                                    mView.showNoData();
+                                }else{
+                                    mView.showData(response.getDatas());
+                                }
+                            }else{
+                                mView.showNoData();
+                            }
+                        }else{
+                            mView.showNoData();
+                        }
+                    }
+                });*/
 
        /* moudle.getApps()
                 .compose(RxHttpResponseCompose.<PageBean<AppInfo>>compatResult())
@@ -152,23 +190,38 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
 
     public void getIndexAppInfos(){
 
-        RxPermissions rxPermissions = new RxPermissions(((DownLoadFragment)mView).getActivity());
-        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).flatMap(new Func1<Boolean, Observable<IndexBean>>() {
+        moudle.getIndexAppInfos().compose(RxHttpResponseCompose.<IndexBean>compatResult())
+                .subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+                    @Override
+                    public void onNext(IndexBean indexBean) {
+                        mView.showIndexData(indexBean);
+                    }
+                });
+
+
+       /* RxPermissions rxPermissions = RxPermissions.getInstance(((DownLoadFragment)mView).getActivity());
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).doOnNext(new Consumer<Boolean>() {
             @Override
-            public Observable<IndexBean> call(Boolean aBoolean) {
+            public void accept(Boolean aBoolean) {
 
                 if (aBoolean){
-                    return moudle.getIndexAppInfos().compose(RxHttpResponseCompose.<IndexBean>compatResult());
+                    moudle.getIndexAppInfos().compose(RxHttpResponseCompose.<IndexBean>compatResult())
+                    .subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+                        @Override
+                        public void onNext(IndexBean indexBean) {
+                            mView.showIndexData(indexBean);
+                        }
+                    });
                 }else{
-                    return Observable.error(null);
+//                    Observable.error(null);
                 }
             }
-        }).subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+        });*//*.subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
             @Override
             public void onNext(IndexBean indexBean) {
                 mView.showIndexData(indexBean);
             }
-        });
+        })*/
 
       /*  moudle.getIndexAppInfos()
                 .compose(RxHttpResponseCompose.<IndexBean>compatResult())

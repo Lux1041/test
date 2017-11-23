@@ -17,13 +17,13 @@ import com.example.tianyi.iphoneassist.R;
 import com.example.tianyi.iphoneassist.bean.LoginBean;
 import com.example.tianyi.iphoneassist.common.Constant;
 import com.example.tianyi.iphoneassist.common.imageloader.GlideCircleTransform;
+import com.example.tianyi.iphoneassist.common.rx.RxBus;
 import com.example.tianyi.iphoneassist.common.util.ACache;
 import com.example.tianyi.iphoneassist.di.component.AppComponent;
 import com.example.tianyi.iphoneassist.ui.adapter.MainFragmentAdapter;
-import com.hwangjr.rxbus.RxBus;
-import com.hwangjr.rxbus.annotation.Subscribe;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 public class MainActivity extends BaseActivity {
 
@@ -49,7 +49,14 @@ public class MainActivity extends BaseActivity {
     @Override
     public void init() {
 
-        RxBus.get().register(this);
+//        RxBus.get().register(this);
+        RxBus.getDefault().toObservable(LoginBean.class).subscribe(new Consumer<LoginBean>() {
+            @Override
+            public void accept(@io.reactivex.annotations.NonNull LoginBean loginBean) throws Exception {
+                getUserFromLogin(loginBean);
+            }
+        });
+
 
         mToolBar.inflateMenu(R.menu.tool_bar_menu);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
@@ -101,7 +108,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @Subscribe
+//    @Subscribe
     public void getUserFromLogin(LoginBean loginBean){
         Glide.with(this).load(loginBean.getUser().getLogo_url()).transform(new GlideCircleTransform(this)).into(mUserHeadView);
         mUserHeadView.setEnabled(false);
@@ -110,6 +117,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister(this);
+//        RxBus.get().unregister(this);
     }
 }

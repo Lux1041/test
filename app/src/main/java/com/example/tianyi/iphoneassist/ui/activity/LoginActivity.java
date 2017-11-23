@@ -13,14 +13,16 @@ import com.example.tianyi.iphoneassist.di.component.DaggerLoginComponent;
 import com.example.tianyi.iphoneassist.di.module.LoginModule;
 import com.example.tianyi.iphoneassist.presenter.LoginPresenter;
 import com.example.tianyi.iphoneassist.presenter.contact.LoginContact;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.InitialValueObservable;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func2;
+import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by Tianyi on 2017/11/20.
@@ -43,18 +45,18 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void init() {
-        Observable<CharSequence> obAccount = RxTextView.textChanges(mAccount);
-        Observable<CharSequence> obPwd = RxTextView.textChanges(mPassword);
-        Observable.combineLatest(obAccount, obPwd, new Func2<CharSequence, CharSequence, Boolean>() {
+        InitialValueObservable<CharSequence> obAccount = RxTextView.textChanges(mAccount);
+        InitialValueObservable<CharSequence> obPwd = RxTextView.textChanges(mPassword);
+        Observable.combineLatest(obAccount, obPwd, new BiFunction<CharSequence, CharSequence, Boolean>() {
             @Override
-            public Boolean call(CharSequence mobile, CharSequence pass) {
+            public Boolean apply(CharSequence mobile, CharSequence pass) throws Exception{
 
                 return (isPhone(mobile) && isPwd(pass));
             }
-        }).subscribe(new Action1<Boolean>() {
+        }).subscribe(new Consumer<Boolean>() {
             @Override
-            public void call(Boolean aBoolean) {
-                RxView.enabled(btnLogin).call(aBoolean);
+            public void accept(Boolean aBoolean) throws Exception {
+                RxView.enabled(btnLogin).accept(aBoolean);
             }
         });
     }

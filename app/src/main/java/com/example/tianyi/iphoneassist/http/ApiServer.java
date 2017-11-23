@@ -7,12 +7,12 @@ import com.example.tianyi.iphoneassist.bean.LoginBean;
 import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.bean.requestbean.LoginRequestBean;
 
+import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by Tianyi on 2017/11/13.

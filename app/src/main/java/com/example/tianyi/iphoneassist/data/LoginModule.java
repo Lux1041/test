@@ -5,7 +5,8 @@ import com.example.tianyi.iphoneassist.bean.LoginBean;
 import com.example.tianyi.iphoneassist.bean.requestbean.LoginRequestBean;
 import com.example.tianyi.iphoneassist.http.ApiServer;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by Tianyi on 2017/11/13.

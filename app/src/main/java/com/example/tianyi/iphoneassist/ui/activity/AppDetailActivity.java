@@ -24,8 +24,6 @@ import com.example.tianyi.iphoneassist.common.util.DensityUtil;
 import com.example.tianyi.iphoneassist.di.component.AppComponent;
 import com.example.tianyi.iphoneassist.http.ApiServer;
 import com.example.tianyi.iphoneassist.ui.fragment.AppInfoFragment;
-import com.hwangjr.rxbus.RxBus;
-import com.hwangjr.rxbus.annotation.Subscribe;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.ionicons_typeface_library.Ionicons;
 
@@ -54,7 +52,7 @@ public class AppDetailActivity extends BaseActivity {
 
     @Override
     public int setLayout() {
-        RxBus.get().register(this);
+//        RxBus.get().register(this);
         return R.layout.activity_app_detail;
     }
 
@@ -108,7 +106,7 @@ public class AppDetailActivity extends BaseActivity {
     }
 
     //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Subscribe
+//    @Subscribe
     public void getView(View view) {
         int[] locations = new int[2];
         view.getLocationOnScreen(locations);
@@ -191,6 +189,6 @@ public class AppDetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister(this);
+//        RxBus.get().unregister(this);
     }
 }

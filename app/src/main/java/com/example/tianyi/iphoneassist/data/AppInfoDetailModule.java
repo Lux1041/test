@@ -4,7 +4,8 @@ import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.BaseBean;
 import com.example.tianyi.iphoneassist.http.ApiServer;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by Tianyi on 2017/11/22.

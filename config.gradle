@@ -8,21 +8,22 @@ ext{
             versionName         :"1.0",
 
 
-            androidSupportSDKVersion                :"24.2.1",
-            designVersion                           :"24.2.1",
+            androidSupportSDKVersion                :"25.2.0",
+            designVersion                           :"25.2.0",
             butterknifeVersion                      :"8.8.1",
             butterknife_compileVersion              :"8.8.1",
-            retrofitVersion                         :"2.1.0",
-            retrofit_adapter_rxjava                 :"2.1.0",
-            retrofit_converter_gson                 :"2.1.0",
 
-            okhttpVersion                           :"3.4.1",
-            logging_interceptor                     :"3.4.1",
+            retrofitVersion                         :"2.2.0",
+            retrofit_adapter_rxjava                 :"2.2.0",
+            retrofit_converter_gson                 :"2.2.0",
 
-            rxandroid                               :"1.2.1",
-            rxjava                                  :"1.1.6",
+            okhttpVersion                           :"3.6.0",
+            logging_interceptor                     :"3.6.0",
 
-            rxbinding                               :"1.0.1"
+            rxandroid                               :"2.0.1",
+            rxjava                                  :"2.0.7",
+
+            rxbinding                               :"2.0.0"
 
     ]
 
@@ -34,16 +35,16 @@ ext{
             "butterknife-compiler"           :"com.jakewharton:butterknife-compiler:${android["butterknife_compileVersion"]}",
 
             "retrofit"                       :"com.squareup.retrofit2:retrofit:${android["retrofitVersion"]}",
-            "retrofit-adapter-rxjava"        :"com.squareup.retrofit2:adapter-rxjava:${android["retrofit_adapter_rxjava"]}",
+            "retrofit-adapter-rxjava"        :"com.squareup.retrofit2:adapter-rxjava2:${android["retrofit_adapter_rxjava"]}",
             "retrofit-converter-gson"        :"com.squareup.retrofit2:converter-gson:${android["retrofit_converter_gson"]}",
 
             "okhttp"                         :"com.squareup.okhttp3:okhttp:${android["okhttpVersion"]}",
             "logging-interceptor"            :"com.squareup.okhttp3:logging-interceptor:${android["logging_interceptor"]}",
 
-            "rxandroid"                      :"io.reactivex:rxandroid:${android["rxandroid"]}",
-            "rxjava"                         :"io.reactivex:rxjava:${android["rxjava"]}",
+            "rxandroid"                      :"io.reactivex.rxjava2:rxandroid:${android["rxandroid"]}",
+            "rxjava"                         :"io.reactivex.rxjava2:rxjava:${android["rxjava"]}",
 
-            "rxbinding"                      :"com.jakewharton.rxbinding:rxbinding:${android["rxbinding"]}"
+            "rxbinding"                      :"com.jakewharton.rxbinding2:rxbinding:${android["rxbinding"]}"
 
 
     ]

@@ -5,6 +5,8 @@ import com.example.tianyi.iphoneassist.common.rx.RxErrorHandler;
 import com.example.tianyi.iphoneassist.ui.BaseView;
 import com.example.tianyi.iphoneassist.ui.fragment.DownLoadFragment;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by Tianyi on 2017/11/16.
  */
@@ -19,7 +21,7 @@ public abstract class ProgressSubscriber<T> extends ErrorSubscriber<T> {
     }
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         mView.dimissLoading();
     }
 
@@ -37,7 +39,7 @@ public abstract class ProgressSubscriber<T> extends ErrorSubscriber<T> {
     }
 
     @Override
-    public void onStart() {
+    public void onSubscribe(Disposable b) {
         mView.loading();
     }
 }
