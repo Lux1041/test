@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import retrofit2.Retrofit;
+import zlc.season.rxdownload2.RxDownload;
 
 /**
  * Created by Tianyi on 2017/11/14.
@@ -26,4 +27,6 @@ public interface AppComponent {
     public AppAplication getAppAplication();
 
     public Retrofit getRetrofit();
+
+    public RxDownload getRxDownLoad();
 }

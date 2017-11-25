@@ -18,6 +18,7 @@ import retrofit2.Retrofit;
 
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import zlc.season.rxdownload2.RxDownload;
 
 /**
  * Created by Tianyi on 2017/11/14.
@@ -62,5 +63,13 @@ public class HttpModule {
         return new RxErrorHandler(appAplication);
     }
 
+    @Provides
+    @Singleton
+    public RxDownload provideRxDownLoad(AppAplication appAplication, Retrofit retrofit){
+        return RxDownload.getInstance(appAplication)
+                .retrofit(retrofit)
+                .maxThread(Runtime.getRuntime().availableProcessors() + 1)
+                .maxDownloadNumber(2 * (Runtime.getRuntime().availableProcessors() + 1));
+    }
 
 }

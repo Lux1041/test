@@ -7,6 +7,8 @@ import com.example.tianyi.iphoneassist.bean.LoginBean;
 import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.bean.requestbean.LoginRequestBean;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -41,10 +43,14 @@ public interface ApiServer {
     @GET("game")
     public  Observable<BaseBean<PageBean<AppInfo>>> games(@Query("page") int page);
 
-
     @POST("login")
     Observable<BaseBean<LoginBean>> login(@Body LoginRequestBean param);
 
     @GET("app/{id}")
     Observable<BaseBean<AppInfo>> getAppDetail(@Path("id") int id);
+
+    @GET("apps/updateinfo")
+    Observable<BaseBean<List<AppInfo>>> getAppsUpdateinfo(@Query("packageName") String packageName, @Query("versionCode") String versionCode);
+
+
 }

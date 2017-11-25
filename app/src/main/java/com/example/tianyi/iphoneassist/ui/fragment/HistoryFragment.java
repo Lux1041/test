@@ -15,6 +15,7 @@ import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.di.component.AppComponent;
 import com.example.tianyi.iphoneassist.di.component.DaggerAppInfoComponent;
 import com.example.tianyi.iphoneassist.di.module.AppInfoModule;
+import com.example.tianyi.iphoneassist.http.ApiServer;
 import com.example.tianyi.iphoneassist.presenter.AppinfoPresenter;
 import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
 import com.example.tianyi.iphoneassist.ui.activity.AppDetailActivity;
@@ -23,7 +24,10 @@ import com.example.tianyi.iphoneassist.ui.widget.DividerItemDecoration;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import zlc.season.rxdownload2.RxDownload;
 
 /**
  * Created by Tianyi on 2017/11/13.
@@ -38,6 +42,11 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
     private AppInfoAdapter mAdapter;
 
     private Handler handler = new Handler();
+
+    @Inject
+    RxDownload rxDownload;
+    @Inject
+    ApiServer apiServer;
 
     @Override
     public int setRealContent() {
@@ -60,6 +69,8 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
         mRecyclerView.addItemDecoration(itemDecoration);
         mPresenter.requestData(page);
         mAdapter = new AppInfoAdapter(new ArrayList<AppInfo>());
+        mAdapter.setApiServer(apiServer);
+        mAdapter.setRxDownload(rxDownload);
         mAdapter.setOnLoadMoreListener(this);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -73,12 +84,6 @@ public class HistoryFragment extends ProgressFragment<AppinfoPresenter> implemen
     }
 
     private void jumpActivity(final View view, AppInfo appInfo) {
-       /* handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                RxBus.get().post(view);
-            }
-        }, 100);*/
         ((AppAplication)getActivity().getApplication()).setItemView(view);
         Intent intent = new Intent(getActivity(), AppDetailActivity.class);
         intent.putExtra("appInfo", appInfo);

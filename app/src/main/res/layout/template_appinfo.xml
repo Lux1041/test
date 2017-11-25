@@ -61,16 +61,23 @@
                 android:text="微信"
                 />
 
-            <TextView android:id="@+id/btn_download"
+            <!--<TextView android:id="@+id/btn_download"
                       android:layout_height="wrap_content"
                       android:layout_width="wrap_content"
                       android:layout_centerVertical="true"
                       android:layout_alignParentRight="true"
                       android:textColor="@color/md_grey_400"
                       android:text="{ion-ios-download}"
+                      android:visibility="gone"
                       android:textSize="40dp"
-
-
+                />-->
+            <com.example.tianyi.iphoneassist.ui.widget.DownloadProgressButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_download"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 />
 
 
