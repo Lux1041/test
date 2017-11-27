@@ -1,5 +1,6 @@
 package com.example.tianyi.iphoneassist.http;
 
+import com.example.tianyi.iphoneassist.bean.AppDownloadInfo;
 import com.example.tianyi.iphoneassist.bean.AppInfo;
 import com.example.tianyi.iphoneassist.bean.BaseBean;
 import com.example.tianyi.iphoneassist.bean.IndexBean;
@@ -52,5 +53,7 @@ public interface ApiServer {
     @GET("apps/updateinfo")
     Observable<BaseBean<List<AppInfo>>> getAppsUpdateinfo(@Query("packageName") String packageName, @Query("versionCode") String versionCode);
 
+    @GET("download/{id}")
+    Observable<BaseBean<AppDownloadInfo>> getAppDownloadInfo(@Path("id") int id);
 
 }

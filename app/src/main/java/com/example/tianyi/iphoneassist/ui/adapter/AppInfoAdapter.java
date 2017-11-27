@@ -40,7 +40,7 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfo, BaseViewHolder> {
 
         if (rxDownload != null){
             helper.addOnClickListener(R.id.btn_download);
-            DownLoadButtonController buttonController = new DownLoadButtonController(rxDownload);
+            DownLoadButtonController buttonController = new DownLoadButtonController(rxDownload, apiServer);
             buttonController.handleDownLoadButtonStatus(mContext, (DownloadProgressButton) helper.getView(R.id.btn_download), item);
         }
     }

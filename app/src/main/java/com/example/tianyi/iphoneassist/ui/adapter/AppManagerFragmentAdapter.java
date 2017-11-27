@@ -13,11 +13,11 @@ import com.example.tianyi.iphoneassist.ui.fragment.NewsTopicFragment;
  * Created by Tianyi on 2017/11/13.
  */
 
-public class MainFragmentAdapter extends FragmentStatePagerAdapter {
+public class AppManagerFragmentAdapter extends FragmentStatePagerAdapter {
 
-    static CharSequence[] titles = {"下载", "游戏", "笑话", "新闻"};
+    static CharSequence[] titles = {"下载", "完成", "删除", "管理"};
 
-    public MainFragmentAdapter(FragmentManager fm) {
+    public AppManagerFragmentAdapter(FragmentManager fm) {
         super(fm);
 
     }

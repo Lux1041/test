@@ -86,6 +86,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.menu_logout:
                         loginout();
                         break;
+                    case R.id.menu_download_manager:
+                        startActivity(new Intent(MainActivity.this, AppDownloadManagerActivity.class));
+                        break;
                 }
 
                 return false;

@@ -8,6 +8,7 @@ import com.example.tianyi.iphoneassist.bean.PageBean;
 import com.example.tianyi.iphoneassist.common.rx.RxErrorHandler;
 import com.example.tianyi.iphoneassist.common.rx.RxHttpResponseCompose;
 import com.example.tianyi.iphoneassist.common.rx.subscriber.ProgressSubscriber;
+import com.example.tianyi.iphoneassist.common.util.PermissionUtil;
 import com.example.tianyi.iphoneassist.data.DownLoadModule;
 import com.example.tianyi.iphoneassist.presenter.contact.DownLoadContact;
 import com.example.tianyi.iphoneassist.ui.fragment.DownLoadFragment;
@@ -15,6 +16,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import javax.inject.Inject;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 
@@ -190,11 +192,19 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
 
     public void getIndexAppInfos(){
 
-        moudle.getIndexAppInfos().compose(RxHttpResponseCompose.<IndexBean>compatResult())
-                .subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+        PermissionUtil.requestPermisson(((DownLoadFragment)mView).getActivity(), Manifest.permission.INTERNET)
+                .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void onNext(IndexBean indexBean) {
-                        mView.showIndexData(indexBean);
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+                        if (aBoolean){
+                            moudle.getIndexAppInfos().compose(RxHttpResponseCompose.<IndexBean>compatResult())
+                                    .subscribe(new ProgressSubscriber<IndexBean>(mView, rxErrorHandler) {
+                                        @Override
+                                        public void onNext(IndexBean indexBean) {
+                                            mView.showIndexData(indexBean);
+                                        }
+                                    });
+                        }
                     }
                 });
 

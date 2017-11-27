@@ -33,10 +33,12 @@ public class HttpModule {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.addInterceptor(logging)
-                .addInterceptor(new CommonParamsInterceptor(context, mGson))
+        builder.addInterceptor(new CommonParamsInterceptor(context, mGson))
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS);
+        if (!true){
+            builder.addInterceptor(logging);
+        }
         return builder.build();
     }
 
