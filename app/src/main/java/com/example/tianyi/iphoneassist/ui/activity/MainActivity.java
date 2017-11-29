@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tianyi.iphoneassist.R;
@@ -21,6 +23,7 @@ import com.example.tianyi.iphoneassist.common.rx.RxBus;
 import com.example.tianyi.iphoneassist.common.util.ACache;
 import com.example.tianyi.iphoneassist.di.component.AppComponent;
 import com.example.tianyi.iphoneassist.ui.adapter.MainFragmentAdapter;
+import com.example.tianyi.iphoneassist.ui.widget.BadgeActionProvider;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
@@ -49,6 +52,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void init() {
 
+//        PermissionUtil.requestPermisson(this, Manifest.permission.READ_PHONE_STATE).subscribe();
+
 //        RxBus.get().register(this);
         RxBus.getDefault().toObservable(LoginBean.class).subscribe(new Consumer<LoginBean>() {
             @Override
@@ -62,6 +67,25 @@ public class MainActivity extends BaseActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
         actionBarDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);//使得箭头联动
+
+        MenuItem menuItem = mToolBar.getMenu().findItem(R.id.tool_bar_download);
+        BadgeActionProvider badgeActionProvider = (BadgeActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        badgeActionProvider.setNumber(10);
+        mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.tool_bar_search:
+                        Toast.makeText(MainActivity.this, "点击了搜索按钮", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.tool_bar_download:
+                        Toast.makeText(MainActivity.this, "点击了下载的按钮", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
+
 
         MainFragmentAdapter adapter = new MainFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
@@ -111,7 +135,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-//    @Subscribe
     public void getUserFromLogin(LoginBean loginBean){
         Glide.with(this).load(loginBean.getUser().getLogo_url()).transform(new GlideCircleTransform(this)).into(mUserHeadView);
         mUserHeadView.setEnabled(false);
@@ -120,6 +143,5 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        RxBus.get().unregister(this);
     }
 }

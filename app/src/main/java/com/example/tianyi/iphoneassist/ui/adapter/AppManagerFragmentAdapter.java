@@ -15,7 +15,7 @@ import com.example.tianyi.iphoneassist.ui.fragment.NewsTopicFragment;
 
 public class AppManagerFragmentAdapter extends FragmentStatePagerAdapter {
 
-    static CharSequence[] titles = {"下载", "完成", "删除", "管理"};
+    static CharSequence[] titles = {"下载", "已完成", "已安装", "管理"};
 
     public AppManagerFragmentAdapter(FragmentManager fm) {
         super(fm);

@@ -192,7 +192,7 @@ public class DownLoadPresenter extends BasePresenter<DownLoadModule, DownLoadCon
 
     public void getIndexAppInfos(){
 
-        PermissionUtil.requestPermisson(((DownLoadFragment)mView).getActivity(), Manifest.permission.INTERNET)
+        PermissionUtil.requestPermisson(((DownLoadFragment)mView).getActivity(), Manifest.permission.READ_PHONE_STATE)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
