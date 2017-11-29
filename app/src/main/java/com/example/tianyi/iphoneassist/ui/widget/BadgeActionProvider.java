@@ -24,6 +24,7 @@ public class BadgeActionProvider extends ActionProvider {
     private ImageView imgDownload;
     private TextView tvNumber;
 
+    private OnBadgeActionProviderClickListener onBadgeActionProviderClickListener;
     /**
      * Creates a new instance.
      *
@@ -48,6 +49,15 @@ public class BadgeActionProvider extends ActionProvider {
         imgDownload = (ImageView) view.findViewById(R.id.tool_bar_download);
         tvNumber = (TextView) view.findViewById(R.id.tool_bar_textnumber);
 
+        imgDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onBadgeActionProviderClickListener != null){
+                    onBadgeActionProviderClickListener.onBadgeActionProviderClicklistener(v);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -58,6 +68,14 @@ public class BadgeActionProvider extends ActionProvider {
     public void setNumber(int number){
         tvNumber.setVisibility(View.VISIBLE);
         tvNumber.setText(number + "");
+    }
+
+    public interface OnBadgeActionProviderClickListener{
+        void onBadgeActionProviderClicklistener(View view);
+    }
+
+    public void setOnBadgeActionProviderClickListener(OnBadgeActionProviderClickListener onBadgeActionProviderClickListener){
+        this.onBadgeActionProviderClickListener = onBadgeActionProviderClickListener;
     }
 
 }

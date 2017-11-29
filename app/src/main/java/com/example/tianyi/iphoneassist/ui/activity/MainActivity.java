@@ -71,15 +71,21 @@ public class MainActivity extends BaseActivity {
         MenuItem menuItem = mToolBar.getMenu().findItem(R.id.tool_bar_download);
         BadgeActionProvider badgeActionProvider = (BadgeActionProvider) MenuItemCompat.getActionProvider(menuItem);
         badgeActionProvider.setNumber(10);
+
+        badgeActionProvider.setOnBadgeActionProviderClickListener(new BadgeActionProvider.OnBadgeActionProviderClickListener() {
+            @Override
+            public void onBadgeActionProviderClicklistener(View view) {
+                Toast.makeText(MainActivity.this, "点击了下载按钮", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.tool_bar_search:
-                        Toast.makeText(MainActivity.this, "点击了搜索按钮", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.tool_bar_download:
-                        Toast.makeText(MainActivity.this, "点击了下载的按钮", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "点击了搜索按钮", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, SearchActivity.class));
                         break;
                 }
                 return false;
